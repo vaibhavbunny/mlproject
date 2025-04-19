@@ -45,8 +45,69 @@ class ModelTrainer:
                 "CatBoostregressor" : CatBoostRegressor(verbose=False),
                 "Adaboost Regressor" : AdaBoostRegressor()
             }
+
+            param_grid = {
+                "Random Forest": {
+                    "n_estimators": [100, 200, 300],
+                    "max_depth": [None, 10, 20, 30],
+                    "min_samples_split": [2, 5, 10],
+                    "min_samples_leaf": [1, 2, 4],
+                    "bootstrap": [True, False]
+                },
+    
+                "Decision Tree": {
+                    "max_depth": [None, 10, 20, 30],
+                    "min_samples_split": [2, 5, 10],
+                    "min_samples_leaf": [1, 2, 4],
+                    "criterion": ["squared_error", "friedman_mse", "absolute_error"]
+                },
+    
+                "Gradient Boosting": {
+                    "n_estimators": [100, 200, 300],
+                    "learning_rate": [0.01, 0.1, 0.2],
+                    "max_depth": [3, 5, 10],
+                    "subsample": [0.8, 1.0],
+                    "min_samples_split": [2, 5],
+                    "min_samples_leaf": [1, 2]
+                },
+    
+                "K-Neighbours": {
+                    "n_neighbors": [3, 5, 7, 9],
+                    "weights": ["uniform", "distance"],
+                    "metric": ["euclidean", "manhattan", "minkowski"]
+                },
+    
+                "XGBRegressor": {
+                    "n_estimators": [100, 200, 300],
+                    "learning_rate": [0.01, 0.1, 0.2],
+                    "max_depth": [3, 5, 10],
+                    "subsample": [0.8, 1.0],
+                    "colsample_bytree": [0.8, 1.0],
+                    "gamma": [0, 1, 5],
+                    "reg_alpha": [0, 0.1, 1],
+                    "reg_lambda": [1, 1.5, 2]
+                },
+    
+                "CatBoostregressor": {
+                    "iterations": [100, 200, 300],
+                    "learning_rate": [0.01, 0.1, 0.2],
+                    "depth": [4, 6, 10],
+                    "l2_leaf_reg": [1, 3, 5],
+                    "bagging_temperature": [0.1, 0.5, 1.0]
+                },
+    
+                "Adaboost Regressor": {
+                    "n_estimators": [50, 100, 200],
+                    "learning_rate": [0.01, 0.1, 1.0],
+                    "loss": ["linear", "square", "exponential"]
+                }
+            }
+
             
-            model_report : dict=evaluate_model(x_train=x_train,y_train=y_train,x_test=x_test,y_test=y_test,models=models)
+            
+            
+            model_report : dict=evaluate_model(x_train=x_train,y_train=y_train,x_test=x_test,y_test=y_test,models=models,
+                                               params=param_grid)
             
             ## to get the best model score from dictionary
             best_model_score = max(sorted(model_report.values()))
