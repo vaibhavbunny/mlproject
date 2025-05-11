@@ -82,5 +82,3 @@ This ensures reliable and automated deployment with each new update.
 
 ---
 
-## 📁 Folder Structure
-
